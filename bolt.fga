@@ -17,9 +17,8 @@ type organization
     define can_view_audit_logs: admin
     define can_view_members: viewer
     define can_view_workspaces: viewer
-    define member: [user] or admin
     define owner: [user]
-    define viewer: [user] or member
+    define viewer: [user] or admin
 
 type workspace
   relations
