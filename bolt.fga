@@ -1,0 +1,94 @@
+model
+  schema 1.1
+
+type user
+
+type organization
+  relations
+    define admin: [user] or owner
+    define can_change_member_roles: admin
+    define can_create_workspace: admin
+    define can_delete_organization: owner
+    define can_export_data: admin
+    define can_invite_users: admin
+    define can_manage_billing: owner
+    define can_manage_settings: admin
+    define can_remove_users: admin
+    define can_view_audit_logs: admin
+    define can_view_members: viewer
+    define can_view_workspaces: viewer
+    define member: [user] or admin
+    define owner: [user]
+    define viewer: [user] or member
+
+type workspace
+  relations
+    define admin: [user] or admin from parent_org or owner
+    define can_change_member_roles: admin
+    define can_create_agent: admin
+    define can_create_datasource: admin
+    define can_delete_documents: member
+    define can_delete_workspace: owner
+    define can_edit: member
+    define can_invite_members: admin
+    define can_manage_agents: admin
+    define can_manage_datasources: admin
+    define can_manage_settings: admin
+    define can_remove_members: admin
+    define can_transfer_ownership: owner
+    define can_upload_documents: member
+    define can_view: viewer
+    define can_view_members: viewer
+    define can_view_settings: viewer
+    define member: [user] or admin
+    define owner: [user] or owner from parent_org
+    define parent_org: [organization]
+    define viewer: [user] or member
+
+type data_source
+  relations
+    define admin: [user] or admin from workspace or owner
+    define can_configure: admin
+    define can_delete: owner
+    define can_edit: editor
+    define can_read: viewer
+    define can_sync: editor
+    define can_update_settings: admin
+    define can_view: viewer
+    define can_view_documents: viewer
+    define editor: [user] or admin
+    define owner: [user] or owner from workspace
+    define viewer: [user] or member from workspace or editor
+    define workspace: [workspace]
+
+type agent
+  relations
+    define admin: [user] or admin from workspace or owner
+    define can_chat: user_role
+    define can_configure: admin
+    define can_delete: owner
+    define can_deploy: admin
+    define can_edit: admin
+    define can_use: user_role
+    define can_view: user_role
+    define can_view_analytics: admin
+    define can_view_logs: admin
+    define owner: [user] or owner from workspace
+    define user_role: [user] or member from workspace or admin
+    define workspace: [workspace]
+
+type document
+  relations
+    define can_change_permissions: owner
+    define can_comment: editor
+    define can_delete: editor or owner
+    define can_download: viewer
+    define can_edit: editor
+    define can_read: viewer
+    define can_share: editor
+    define can_view: viewer
+    define data_source: [data_source]
+    define editor: [user] or admin from data_source or owner
+    define owner: [user] or owner from data_source
+    define viewer: [user] or editor or can_read from data_source or viewer from workspace
+    define workspace: [workspace]
