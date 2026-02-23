@@ -78,6 +78,7 @@ type agent
 
 type document
   relations
+    define admin:[user] or admin from workspace or admin from data_source
     define can_change_permissions: owner
     define can_comment: editor
     define can_delete: editor or owner
@@ -87,7 +88,7 @@ type document
     define can_share: editor
     define can_view: viewer
     define data_source: [data_source]
-    define editor: [user] or admin from data_source or owner
-    define owner: [user] or owner from data_source
+    define editor: [user] or admin or owner
+    define owner: [user] or owner from data_source or owner from workspace
     define viewer: [user] or editor or can_read from data_source or viewer from workspace
     define workspace: [workspace]
