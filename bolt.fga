@@ -30,8 +30,6 @@ type workspace
     define can_delete_workspace: owner
     define can_edit: member
     define can_invite_members: admin
-    define can_manage_agents: admin
-    define can_manage_datasources: admin
     define can_manage_settings: admin
     define can_remove_members: admin
     define can_transfer_ownership: owner
